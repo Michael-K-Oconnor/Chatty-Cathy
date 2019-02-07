@@ -1,0 +1,4 @@
+.DS_Store
+.env
+secret.yml
+chat-service*
