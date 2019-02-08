@@ -28,7 +28,7 @@ services:
       - dev-network
 
   reverse-proxy:
-    image: michaelkoconnor/chatty-cathy-nginx
+    image: michaelkoconnor/chatty-cathy-reverse-proxy
     container_name: reverse-proxy
     build: ./nginx
     depends_on:
