@@ -1,29 +1,29 @@
 version: "3.7"
 
 services:
-  chatty-cathy:
+  chat-service1:
     image: michaelkoconnor/chatty-cathy
-    build: .
+    build: ./chat-service
     depends_on:
       - redis
     environment:
       NODE_ENV: production
     ports:
       - 4000:4000
-    env_file: .env
+    env_file: ./chat-service/.env
     networks:
       - dev-network
 
-  chatty-cathy1:
+  chat-service2:
     image: michaelkoconnor/chatty-cathy
-    build: .
+    build: ./chat-service
     depends_on:
       - redis
     environment:
       NODE_ENV: production
     ports:
       - 4001:4000
-    env_file: .env
+    env_file: ./chat-service/.env
     networks:
       - dev-network
 
@@ -31,8 +31,11 @@ services:
     image: michaelkoconnor/chatty-cathy-nginx
     container_name: reverse-proxy
     build: ./nginx
+    depends_on:
+      - chat-service1
+      - chat-service2
     ports:
-      - "80:80"
+      - 80:80
     networks:
       - dev-network
 
@@ -44,15 +47,15 @@ services:
     networks:
       - dev-network
 
-  test:
-    image: michaelkoconnor/chatty-cathy
-    build: .
-    environment:
-      NODE_ENV: test
-    command: npm test
-    ports:
-      - 4000:4000
-    env_file: .env
+  # test:
+  #   image: michaelkoconnor/chatty-cathy
+  #   build: ./chat-service
+  #   environment:
+  #     NODE_ENV: test
+  #   command: npm test
+  #   ports:
+  #     - 4000:4000
+  #   env_file: ./chat-service/.env
 
 networks:
   dev-network:
