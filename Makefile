@@ -1,16 +1,22 @@
-build-run:
+build-up:
 	docker-compose up --build reverse-proxy
-	# docker-compose up --build chat-service1 chat-service2
 
 build:
-	docker-compose build chat-service1
+	docker-compose build chat-service1 frontend1 reverse-proxy
 
-run:
+up:
 	docker-compose up reverse-proxy
-	# docker-compose up chat-service1 chat-service2
 
 down:
 	docker-compose down
+
+build-push:
+	docker build -t michaelkoconnor/chatty-cathy-chat-service ./chat-service &&\
+	docker build -t michaelkoconnor/chatty-cathy-frontend ./frontend &&\
+	docker build -t michaelkoconnor/chatty-cathy-chat-reverse-proxy ./reverse-proxy &&\
+	docker push michaelkoconnor/chatty-cathy-chat-service &&\
+	docker push michaelkoconnor/chatty-cathy-frontend &&\
+	docker push michaelkoconnor/chatty-cathy-chat-reverse-proxy 
 
 test:
 	docker-compose up --build test

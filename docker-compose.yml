@@ -2,7 +2,8 @@ version: "3.7"
 
 services:
   chat-service1:
-    image: michaelkoconnor/chatty-cathy
+    image: michaelkoconnor/chatty-cathy-chat-service
+    container_name: chat-service1
     build: ./chat-service
     depends_on:
       - redis
@@ -15,7 +16,8 @@ services:
       - dev-network
 
   chat-service2:
-    image: michaelkoconnor/chatty-cathy
+    image: michaelkoconnor/chatty-cathy-chat-service
+    container_name: chat-service2
     build: ./chat-service
     depends_on:
       - redis
@@ -27,13 +29,25 @@ services:
     networks:
       - dev-network
 
+  frontend1:
+    image: michaelkoconnor/chatty-cathy-frontend
+    container_name: frontend1
+    build: ./frontend
+    environment:
+      NODE_ENV: development
+    ports:
+      - 8080:8080
+    networks:
+      - dev-network
+
   reverse-proxy:
     image: michaelkoconnor/chatty-cathy-reverse-proxy
     container_name: reverse-proxy
-    build: ./nginx
+    build: ./reverse-proxy
     depends_on:
       - chat-service1
       - chat-service2
+      - frontend1
     ports:
       - 80:80
     networks:
