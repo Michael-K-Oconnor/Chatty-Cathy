@@ -3,3 +3,4 @@
 chat-service*
 frontend*
 reverse-proxy*
+database/*

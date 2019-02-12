@@ -7,8 +7,9 @@ services:
     build: ./chat-service
     depends_on:
       - redis
+      - db
     environment:
-      NODE_ENV: production
+      NODE_ENV: development
     ports:
       - 4000:4000
     env_file: ./chat-service/.env
@@ -21,8 +22,9 @@ services:
     build: ./chat-service
     depends_on:
       - redis
+      - db
     environment:
-      NODE_ENV: production
+      NODE_ENV: development
     ports:
       - 4001:4000
     env_file: ./chat-service/.env
@@ -61,15 +63,48 @@ services:
     networks:
       - dev-network
 
-  # test:
-  #   image: michaelkoconnor/chatty-cathy
-  #   build: ./chat-service
-  #   environment:
-  #     NODE_ENV: test
-  #   command: npm test
-  #   ports:
-  #     - 4000:4000
-  #   env_file: ./chat-service/.env
+  db:
+    image: postgres
+    container_name: postgres
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: admin
+      POSTGRES_USER: admin
+      POSTGRES_DB: chattycathy
+      POSTGRES_HOST: postgres
+    volumes:
+      - ./database:/var/lib/postgresql/data
+    networks:
+      - dev-network
+
+  seed-db:
+    image: michaelkoconnor/chatty-cathy-chat-service
+    container_name: seed-db
+    build: ./chat-service
+    command: npm run knex-remake
+    depends_on:
+      - db
+      - redis
+    environment:
+      NODE_ENV: development
+    ports:
+      - 4000:4000
+    env_file: ./chat-service/.env
+    networks:
+      - dev-network
+
+  test:
+    image: michaelkoconnor/chatty-cathy
+    build: ./chat-service
+    environment:
+      NODE_ENV: test
+    command: npm test
+    ports:
+      - 4000:4000
+    env_file: ./chat-service/.env
+    networks:
+      - dev-network
 
 networks:
   dev-network:
