@@ -1,6 +1,4 @@
-.DS_Store
-.env
-chat-service*
-frontend*
-reverse-proxy*
-database/*
+*
+!.gitignore
+!docker-compose.yml
+!Makefile

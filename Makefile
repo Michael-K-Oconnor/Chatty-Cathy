@@ -13,10 +13,10 @@ down:
 build-push:
 	docker build -t michaelkoconnor/chatty-cathy-chat-service ./chat-service &&\
 	docker build -t michaelkoconnor/chatty-cathy-frontend ./frontend &&\
-	docker build -t michaelkoconnor/chatty-cathy-chat-reverse-proxy ./reverse-proxy &&\
+	docker build -t michaelkoconnor/chatty-cathy-reverse-proxy ./reverse-proxy &&\
 	docker push michaelkoconnor/chatty-cathy-chat-service &&\
 	docker push michaelkoconnor/chatty-cathy-frontend &&\
-	docker push michaelkoconnor/chatty-cathy-chat-reverse-proxy 
+	docker push michaelkoconnor/chatty-cathy-reverse-proxy 
 
 test:
 	docker-compose up --build test

@@ -13,8 +13,8 @@ services:
     ports:
       - 4000:4000
     env_file: ./chat-service/.env
-    networks:
-      - dev-network
+    # networks:
+    #   - dev-network
 
   chat-service2:
     image: michaelkoconnor/chatty-cathy-chat-service
@@ -28,8 +28,8 @@ services:
     ports:
       - 4001:4000
     env_file: ./chat-service/.env
-    networks:
-      - dev-network
+    # networks:
+    #   - dev-network
 
   frontend1:
     image: michaelkoconnor/chatty-cathy-frontend
@@ -39,8 +39,8 @@ services:
       NODE_ENV: development
     ports:
       - 8080:8080
-    networks:
-      - dev-network
+    # networks:
+    #   - dev-network
 
   reverse-proxy:
     image: michaelkoconnor/chatty-cathy-reverse-proxy
@@ -52,16 +52,16 @@ services:
       - frontend1
     ports:
       - 80:80
-    networks:
-      - dev-network
+    # networks:
+    #   - dev-network
 
   redis:
     image: redis
     container_name: cache
     ports:
       - 6379:6379
-    networks:
-      - dev-network
+    # networks:
+    #   - dev-network
 
   db:
     image: postgres
@@ -75,8 +75,8 @@ services:
       POSTGRES_HOST: postgres
     volumes:
       - ./database:/var/lib/postgresql/data
-    networks:
-      - dev-network
+    # networks:
+    #   - dev-network
 
   seed-db:
     image: michaelkoconnor/chatty-cathy-chat-service
@@ -91,8 +91,8 @@ services:
     ports:
       - 4000:4000
     env_file: ./chat-service/.env
-    networks:
-      - dev-network
+    # networks:
+    #   - dev-network
 
   test:
     image: michaelkoconnor/chatty-cathy
